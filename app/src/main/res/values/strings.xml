@@ -3,4 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="signin">ورود</string>
+    <string name="username">نام کاربری</string>
+    <string name="password">رمز عبور</string>
+
 </resources>
