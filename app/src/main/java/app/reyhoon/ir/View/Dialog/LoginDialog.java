@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,8 +37,7 @@ public class LoginDialog extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.dialog_login);
         login = (Button) findViewById (R.id.login);
@@ -45,13 +45,6 @@ public class LoginDialog extends Dialog implements View.OnClickListener {
         password = (EditText) findViewById (R.id.password);
 
         login.setOnClickListener(this);
-
-//        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-//        lp.copyFrom(getWindow().getAttributes());
-//        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-//        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-//        getWindow().setAttributes(lp);
-//        validateAdapter = new ValidateAdapter();
     }
 
     @Override
