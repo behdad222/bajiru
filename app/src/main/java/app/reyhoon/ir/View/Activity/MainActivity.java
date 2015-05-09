@@ -1,4 +1,4 @@
-package app.reyhoon.ir.reyhoon;
+package app.reyhoon.ir.View.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,25 +6,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+import app.reyhoon.ir.Callback.LoginCallback;
+import app.reyhoon.ir.R;
+import app.reyhoon.ir.View.Dialog.LoginDialog;
 
-    private EditText userName;
-    private EditText password;
-    private Button login;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
 
-        userName = (EditText) findViewById(R.id.username);
-        password = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.login);
-
         login.setOnClickListener(this);
-
     }
 
     @Override
@@ -51,6 +48,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.login:
 
+                new LoginDialog(this, new LoginCallback() {
+                    @Override
+                    public void LoginCallback() {
+                    }
+                }).show();
+                break;
+        }
     }
 }

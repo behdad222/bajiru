@@ -1,4 +1,4 @@
-package app.reyhoon.ir.reyhoon;
+package app.reyhoon.ir;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
