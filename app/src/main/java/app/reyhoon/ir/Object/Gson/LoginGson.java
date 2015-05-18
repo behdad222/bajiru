@@ -1,11 +1,11 @@
 package app.reyhoon.ir.Object.Gson;
 
 public class LoginGson {
-    private String userName;
+    private String username;
     private String password;
 
-    public LoginGson(String userName, String password){
-        this.userName = userName;
+    public LoginGson(String username, String password){
+        this.username = username;
         this.password = password;
     }
 }

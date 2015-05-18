@@ -52,6 +52,7 @@ public class LoginDialog extends Dialog implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.login:
                 RestAdapter restAdapter = new RestAdapter.Builder()
+                        .setLogLevel(RestAdapter.LogLevel.FULL)
                         .setEndpoint(context.getString(R.string.domainURL_v2))
                         .build();
 
@@ -67,7 +68,7 @@ public class LoginDialog extends Dialog implements View.OnClickListener {
                             }
                             @Override
                             public void failure(RetrofitError error) {
-                                Toast.makeText(context, "خطا", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "خطا " , Toast.LENGTH_SHORT).show();
 
                                 //todo
 
