@@ -1,36 +1,30 @@
 package app.reyhoon.ir.View.Activity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
-import app.reyhoon.ir.Api.GetUser;
-import app.reyhoon.ir.Callback.LoginCallback;
-import app.reyhoon.ir.Object.Response.User;
 import app.reyhoon.ir.R;
-import app.reyhoon.ir.View.Dialog.LoginDialog;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import app.reyhoon.ir.View.Fragment.LoginFragment;
+import app.reyhoon.ir.View.Fragment.MainFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    Button login;
     Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = this;
 
         // Initialize the Prefs class
         new Prefs.Builder()
@@ -40,10 +34,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setUseDefaultSharedPreference(true)
                 .build();
 
-        context = this;
 
-        login = (Button) findViewById(R.id.login);
-        login.setOnClickListener(this);
+
+        if (Prefs.getString("token", null) != null) {//todo
+
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace( R.id.fragment_holder, new LoginFragment() );
+            transaction.commit();
+        } else {
+
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace( R.id.fragment_holder, new MainFragment() );
+            transaction.commit();
+        }
+
     }
 
     @Override
@@ -68,39 +74,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.login:
-
-                new LoginDialog(this, new LoginCallback() {
-                    @Override
-                    public void LoginCallback() {
-
-                        RestAdapter restAdapter = new RestAdapter.Builder()
-                                .setEndpoint(getString(R.string.domainURL_v2))
-                                .build();
-
-                        GetUser getUser = restAdapter.create(GetUser.class);
-                        getUser.getUser(
-                                Prefs.getString("token", ""),
-                                new Callback<User>() {
-                                    @Override
-                                    public void success(User user, Response response) {
-                                        Toast.makeText(context, user.getName(), Toast.LENGTH_SHORT).show();
-
-                                    }
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        Toast.makeText(context,"خطا " + error.getResponse().getStatus(), Toast.LENGTH_SHORT).show();
-
-                                        //todo
-
-                                    }
-                                });
-                    }
-                }).show();
-                break;
-        }
-    }
 }

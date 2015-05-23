@@ -39,7 +39,7 @@ public class LoginDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.dialog_login);
+        setContentView(R.layout.fragment_login);
         login = (Button) findViewById (R.id.login);
         useName = (EditText) findViewById (R.id.userName);
         password = (EditText) findViewById (R.id.password);
