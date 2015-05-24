@@ -33,21 +33,19 @@ public class MainActivity extends AppCompatActivity {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
-
-
-
-        if (Prefs.getString("token", null) != null) {//todo
-
+        String a= Prefs.getString("token", null);
+        if (a == null) {//todo
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace( R.id.fragment_holder, new LoginFragment() );
             transaction.commit();
-        } else {
 
+        } else {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace( R.id.fragment_holder, new MainFragment() );
             transaction.commit();
+
         }
 
     }
