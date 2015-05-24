@@ -15,7 +15,8 @@ import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
-import app.reyhoon.ir.Api.LoginApi;
+import app.reyhoon.ir.Interface.FinalString;
+import app.reyhoon.ir.Interface.LoginApi;
 import app.reyhoon.ir.Object.Gson.LoginGson;
 import app.reyhoon.ir.Object.Response.LoginResponse;
 import app.reyhoon.ir.R;
@@ -56,7 +57,8 @@ public class LoginFragment extends Fragment {
                 new Callback<LoginResponse>() {
                     @Override
                     public void success(LoginResponse loginResponse, Response response) {
-                        Prefs.putString("token", loginResponse.getToken());
+                        Prefs.putString(FinalString.TOKEN, loginResponse.getToken());
+                        Prefs.putBoolean(FinalString.LOGINUSER, true);
 
                         FragmentManager manager = getFragmentManager();
                         FragmentTransaction transaction = manager.beginTransaction();

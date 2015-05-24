@@ -11,7 +11,8 @@ import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
-import app.reyhoon.ir.Api.GetUser;
+import app.reyhoon.ir.Interface.FinalString;
+import app.reyhoon.ir.Interface.GetUserApi;
 import app.reyhoon.ir.Object.Response.User;
 import app.reyhoon.ir.R;
 import retrofit.Callback;
@@ -30,9 +31,9 @@ public class MainFragment extends Fragment {
                 .setEndpoint(getString(R.string.domainURL_v2))
                 .build();
 
-        GetUser getUser = restAdapter.create(GetUser.class);
-        getUser.getUser(
-                Prefs.getString("token", ""),
+        GetUserApi getUserApi = restAdapter.create(GetUserApi.class);
+        getUserApi.getUser(
+                Prefs.getString(FinalString.TOKEN, ""),
                 new Callback<User>() {
                     @Override
                     public void success(User user, Response response) {

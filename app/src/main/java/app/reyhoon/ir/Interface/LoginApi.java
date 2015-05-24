@@ -1,4 +1,4 @@
-package app.reyhoon.ir.Api;
+package app.reyhoon.ir.Interface;
 
 import app.reyhoon.ir.Object.Gson.LoginGson;
 import app.reyhoon.ir.Object.Response.LoginResponse;

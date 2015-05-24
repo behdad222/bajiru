@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
+import app.reyhoon.ir.Interface.FinalString;
 import app.reyhoon.ir.R;
 import app.reyhoon.ir.View.Fragment.LoginFragment;
 import app.reyhoon.ir.View.Fragment.MainFragment;
@@ -33,17 +34,17 @@ public class MainActivity extends AppCompatActivity {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
-        String a= Prefs.getString("token", null);
-        if (a == null) {//todo
+
+        if (Prefs.getBoolean(FinalString.LOGINUSER, false)) {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace( R.id.fragment_holder, new LoginFragment() );
+            transaction.replace( R.id.fragment_holder, new MainFragment() );
             transaction.commit();
 
         } else {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace( R.id.fragment_holder, new MainFragment() );
+            transaction.replace( R.id.fragment_holder, new LoginFragment() );
             transaction.commit();
 
         }
