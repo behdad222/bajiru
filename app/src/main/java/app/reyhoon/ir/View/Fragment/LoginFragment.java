@@ -57,8 +57,6 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void success(LoginResponse loginResponse, Response response) {
                         Prefs.putString("token", loginResponse.getToken());
-//                        loginCallback.LoginCallback();
-//                        dismiss();
 
                         FragmentManager manager = getFragmentManager();
                         FragmentTransaction transaction = manager.beginTransaction();
@@ -67,7 +65,19 @@ public class LoginFragment extends Fragment {
                     }
                     @Override
                     public void failure(RetrofitError error) {
-                        Toast.makeText(context, "خطا ", Toast.LENGTH_SHORT).show();
+                        switch (error.getResponse().getStatus()) {
+                            case 418:
+                                Toast.makeText(context, "باید پسورد عوض شود", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case 401:
+                                Toast.makeText(context, "خطا ۴۰۱", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            default:
+                                Toast.makeText(context, "خطا", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
 
                         //todo
 
