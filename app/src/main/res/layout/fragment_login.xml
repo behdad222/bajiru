@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/userName"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:ems="10"
-        android:hint="@string/user_name"
-        android:gravity="center">
+        android:layout_gravity="center">
 
-        <requestFocus />
+        <EditText
+            android:id="@+id/userName"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:ems="10"
+            android:hint="@string/user_name"
+            android:gravity="center"
+            android:layout_centerHorizontal="true">
+            <requestFocus />
+        </EditText>
 
-    </EditText>
+        <EditText
+            android:id="@+id/password"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:layout_below="@id/userName"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"/>
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:gravity="center" />
+        <Button
+            android:id="@+id/login"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/login"
+            android:layout_below="@id/password"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/login"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="@string/login"
-        android:gravity="center" />
-
-</LinearLayout>
+    </RelativeLayout>
+</ScrollView>
