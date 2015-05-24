@@ -2,21 +2,13 @@ package app.reyhoon.ir.Object.Response;
 
 public class User {
     private String id;
-
     private String created_by;
-
     private String username;
-
     private String phone;
-
     private String address;
-
     private String created_on;
-
     private String name;
-
     private String active;
-
     private String note;
 
     public String getId ()

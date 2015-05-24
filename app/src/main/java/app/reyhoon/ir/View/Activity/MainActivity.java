@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 .setUseDefaultSharedPreference(true)
                 .build();
 
-        if (Prefs.getBoolean(FinalString.LOGINUSER, false)) {
+        if (Prefs.getBoolean(FinalString.LOGIN_USER, false)) {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace( R.id.fragment_holder, new MainFragment() );

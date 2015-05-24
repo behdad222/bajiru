@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void success(LoginResponse loginResponse, Response response) {
                         Prefs.putString(FinalString.TOKEN, loginResponse.getToken());
-                        Prefs.putBoolean(FinalString.LOGINUSER, true);
+                        Prefs.putBoolean(FinalString.LOGIN_USER, true);
 
                         FragmentManager manager = getFragmentManager();
                         FragmentTransaction transaction = manager.beginTransaction();

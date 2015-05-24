@@ -37,6 +37,7 @@ public class MainFragment extends Fragment {
                 new Callback<User>() {
                     @Override
                     public void success(User user, Response response) {
+                        Prefs.putString(FinalString.USER_NAME, user.getName());
                         Toast.makeText(context, user.getName(), Toast.LENGTH_SHORT).show();
 
                     }
