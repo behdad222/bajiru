@@ -65,6 +65,7 @@ public class LoginFragment extends Fragment {
                         transaction.replace(R.id.fragment_holder, new MainFragment() );
                         transaction.commit();
                     }
+
                     @Override
                     public void failure(RetrofitError error) {
                         switch (error.getResponse().getStatus()) {
