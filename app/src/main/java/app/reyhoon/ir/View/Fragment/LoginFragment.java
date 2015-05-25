@@ -68,18 +68,25 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        switch (error.getResponse().getStatus()) {
-                            case 418:
-                                Toast.makeText(context, "باید پسورد عوض شود", Toast.LENGTH_SHORT).show();
-                                break;
 
-                            case 401:
-                                Toast.makeText(context, "خطا ۴۰۱", Toast.LENGTH_SHORT).show();
-                                break;
+                        if (error.getKind() == RetrofitError.Kind.HTTP) {
+                            switch (error.getResponse().getStatus()) {
+                                case 418:
+                                    Toast.makeText(context, "باید پسورد عوض شود", Toast.LENGTH_SHORT).show();
+                                    break;
 
-                            default:
-                                Toast.makeText(context, "خطا", Toast.LENGTH_SHORT).show();
-                                break;
+                                case 401:
+                                    Toast.makeText(context, "خطا ۴۰۱", Toast.LENGTH_SHORT).show();
+                                    break;
+
+                                default:
+                                    Toast.makeText(context, "خطا", Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+
+                        } else {
+                            Toast.makeText(context, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
+
                         }
 
                         //todo

@@ -59,10 +59,14 @@ public class MainFragment extends Fragment {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Toast.makeText(context, "خطا " + error.getResponse().getStatus(), Toast.LENGTH_SHORT).show();
+                        if (error.getKind() == RetrofitError.Kind.HTTP) {
+                            Toast.makeText(context,"خطا" + error.getResponse().getStatus(), Toast.LENGTH_SHORT).show();
 
+                        } else {
+                            Toast.makeText(context, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
+
+                        }
                         //todo
-
                     }
                 });
     }
