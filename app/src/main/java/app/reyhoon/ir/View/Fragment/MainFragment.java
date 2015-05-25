@@ -16,7 +16,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import app.reyhoon.ir.Interface.FinalString;
 import app.reyhoon.ir.Interface.GetUserApi;
-import app.reyhoon.ir.Object.Response.User;
+import app.reyhoon.ir.Object.Response.UserResponse;
 import app.reyhoon.ir.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -49,11 +49,11 @@ public class MainFragment extends Fragment {
         GetUserApi getUserApi = restAdapter.create(GetUserApi.class);
         getUserApi.getUser(
                 Prefs.getString(FinalString.TOKEN, ""),
-                new Callback<User>() {
+                new Callback<UserResponse>() {
                     @Override
-                    public void success(User user, Response response) {
-                        Prefs.putString(FinalString.USER_NAME, user.getName());
-                        Toast.makeText(context, user.getName(), Toast.LENGTH_SHORT).show();
+                    public void success(UserResponse userResponse, Response response) {
+                        Prefs.putString(FinalString.USER_NAME, userResponse.getName());
+                        Toast.makeText(context, userResponse.getName(), Toast.LENGTH_SHORT).show();
 
                     }
 

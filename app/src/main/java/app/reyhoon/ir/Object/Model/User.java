@@ -1,4 +1,4 @@
-package app.reyhoon.ir.Object.Response;
+package app.reyhoon.ir.Object.Model;
 
 public class User {
     private String id;
@@ -100,4 +100,5 @@ public class User {
     {
         this.note = note;
     }
+
 }
