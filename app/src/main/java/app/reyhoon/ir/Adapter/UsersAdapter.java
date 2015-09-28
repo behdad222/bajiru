@@ -25,7 +25,6 @@ public class UsersAdapter extends RecyclerView.Adapter <UsersAdapter.ViewHolder>
         public ViewHolder(View view) {
             super(view);
             ButterKnife.inject(this, view);
-
         }
     }
 
@@ -35,13 +34,10 @@ public class UsersAdapter extends RecyclerView.Adapter <UsersAdapter.ViewHolder>
         return new ViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(users.get(position).getName());
     }
-
-
 
     @Override
     public int getItemCount() {
