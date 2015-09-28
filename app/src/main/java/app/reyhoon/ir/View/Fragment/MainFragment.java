@@ -18,7 +18,6 @@ import app.reyhoon.ir.Interface.FinalString;
 import app.reyhoon.ir.Interface.GetUserApi;
 import app.reyhoon.ir.Object.Response.UserResponse;
 import app.reyhoon.ir.R;
-import app.reyhoon.ir.StaticField;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -44,7 +43,7 @@ public class MainFragment extends Fragment {
 
     private void getUserInfo() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(StaticField.domainURL_v2)
+                .setEndpoint(FinalString.domainURL_v2)
                 .build();
 
         GetUserApi getUserApi = restAdapter.create(GetUserApi.class);

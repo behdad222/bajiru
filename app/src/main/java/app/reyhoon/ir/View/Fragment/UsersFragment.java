@@ -21,7 +21,6 @@ import app.reyhoon.ir.Interface.GetUsersApi;
 import app.reyhoon.ir.Object.Model.User;
 import app.reyhoon.ir.Object.Response.UsersResponse;
 import app.reyhoon.ir.R;
-import app.reyhoon.ir.StaticField;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -58,7 +57,7 @@ public class UsersFragment extends Fragment {
 
     private void getUsersList() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(StaticField.domainURL_v2)
+                .setEndpoint(FinalString.domainURL_v2)
                 .build();
 
         GetUsersApi getUsersApi = restAdapter.create(GetUsersApi.class);

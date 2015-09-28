@@ -20,7 +20,6 @@ import app.reyhoon.ir.Interface.LoginApi;
 import app.reyhoon.ir.Object.Gson.LoginGson;
 import app.reyhoon.ir.Object.Response.LoginResponse;
 import app.reyhoon.ir.R;
-import app.reyhoon.ir.StaticField;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -49,7 +48,7 @@ public class LoginFragment extends Fragment {
     public void login() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint(StaticField.domainURL_v2)
+                .setEndpoint(FinalString.domainURL_v2)
                 .build();
 
         LoginApi loginApi = restAdapter.create(LoginApi.class);
