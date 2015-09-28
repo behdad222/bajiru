@@ -8,8 +8,4 @@
     <string name="password">رمز عبور</string>
     <string name="users">کاربران</string>
 
-
-
-    <string name="domainURL_v2">http://192.168.1.243:5000/api/v1.8</string>
-
 </resources>
