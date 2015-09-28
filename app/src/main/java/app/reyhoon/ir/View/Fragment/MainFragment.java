@@ -18,6 +18,7 @@ import app.reyhoon.ir.Interface.FinalString;
 import app.reyhoon.ir.Interface.GetUserApi;
 import app.reyhoon.ir.Object.Response.UserResponse;
 import app.reyhoon.ir.R;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -29,13 +30,13 @@ import retrofit.client.Response;
 public class MainFragment extends Fragment {
     Context context;
 
-    @InjectView(R.id.users) Button users;
+    @Bind(R.id.users) Button users;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         context = getActivity();
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
         getUserInfo();
 
         return view;
@@ -60,7 +61,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void failure(RetrofitError error) {
                         if (error.getKind() == RetrofitError.Kind.HTTP) {
-                            Toast.makeText(context,"خطا" + error.getResponse().getStatus(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "خطا" + error.getResponse().getStatus(), Toast.LENGTH_SHORT).show();
 
                         } else {
                             Toast.makeText(context, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
@@ -77,5 +78,12 @@ public class MainFragment extends Fragment {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_holder, new UsersFragment() );
         transaction.commit();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

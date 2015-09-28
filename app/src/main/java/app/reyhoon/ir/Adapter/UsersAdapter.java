@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import app.reyhoon.ir.Object.Model.User;
 import app.reyhoon.ir.R;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class UsersAdapter extends RecyclerView.Adapter <UsersAdapter.ViewHolder> {
     private ArrayList<User> users;
@@ -20,11 +20,11 @@ public class UsersAdapter extends RecyclerView.Adapter <UsersAdapter.ViewHolder>
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.name) TextView name;
+        @Bind(R.id.name) TextView name;
 
         public ViewHolder(View view) {
             super(view);
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
     }
 

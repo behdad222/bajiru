@@ -21,6 +21,7 @@ import app.reyhoon.ir.Interface.GetUsersApi;
 import app.reyhoon.ir.Object.Model.User;
 import app.reyhoon.ir.Object.Response.UsersResponse;
 import app.reyhoon.ir.R;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -30,7 +31,7 @@ import retrofit.client.Response;
 
 public class UsersFragment extends Fragment {
 
-    @InjectView(R.id.recycleView) RecyclerView recyclerView;
+    @Bind(R.id.recycleView) RecyclerView recyclerView;
 
     private RecyclerView.LayoutManager layoutManager;
     private UsersAdapter adapter;
@@ -41,7 +42,7 @@ public class UsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_users, container, false);
 
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
@@ -89,5 +90,11 @@ public class UsersFragment extends Fragment {
                         //todo
                     }
                 });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

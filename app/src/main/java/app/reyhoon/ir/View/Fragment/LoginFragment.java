@@ -20,6 +20,7 @@ import app.reyhoon.ir.Interface.LoginApi;
 import app.reyhoon.ir.Object.Gson.LoginGson;
 import app.reyhoon.ir.Object.Response.LoginResponse;
 import app.reyhoon.ir.R;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -31,21 +32,22 @@ import retrofit.client.Response;
 public class LoginFragment extends Fragment {
     Context context;
 
-    @InjectView(R.id.login) Button login;
-    @InjectView(R.id.userName) EditText useName;
-    @InjectView(R.id.password) EditText password;
+    @Bind(R.id.login) Button login;
+    @Bind(R.id.userName) EditText useName;
+    @Bind(R.id.password) EditText password;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         context = getActivity();
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         return view;
     }
 
     @OnClick(R.id.login)
-    public void login() {
+    public void sendToserver() {
+        login.setEnabled(false);
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint(FinalString.domainURL_v2)
@@ -92,9 +94,13 @@ public class LoginFragment extends Fragment {
                         //todo
 
                     }
-                });
-
+                }
+        );
     }
 
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }
