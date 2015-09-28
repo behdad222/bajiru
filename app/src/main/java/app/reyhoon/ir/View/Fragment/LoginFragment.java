@@ -22,7 +22,6 @@ import app.reyhoon.ir.Object.Response.LoginResponse;
 import app.reyhoon.ir.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -70,6 +69,7 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void failure(RetrofitError error) {
+                        login.setEnabled(true);
 
                         if (error.getKind() == RetrofitError.Kind.HTTP) {
                             switch (error.getResponse().getStatus()) {
@@ -88,7 +88,6 @@ public class LoginFragment extends Fragment {
 
                         } else {
                             Toast.makeText(context, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
-
                         }
 
                         //todo

@@ -20,7 +20,6 @@ import app.reyhoon.ir.Object.Response.UserResponse;
 import app.reyhoon.ir.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -79,7 +78,6 @@ public class MainFragment extends Fragment {
         transaction.replace(R.id.fragment_holder, new UsersFragment() );
         transaction.commit();
     }
-
 
     @Override
     public void onDestroyView() {

@@ -23,7 +23,6 @@ import app.reyhoon.ir.Object.Response.UsersResponse;
 import app.reyhoon.ir.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
