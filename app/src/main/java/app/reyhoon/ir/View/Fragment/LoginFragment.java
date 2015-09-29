@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
@@ -21,6 +22,7 @@ import app.reyhoon.ir.Object.Gson.LoginGson;
 import app.reyhoon.ir.Object.Response.LoginResponse;
 import app.reyhoon.ir.R;
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.Callback;
@@ -34,6 +36,10 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.login) Button login;
     @Bind(R.id.userName) EditText useName;
     @Bind(R.id.password) EditText password;
+    @Bind(R.id.loading) ProgressBar loading;
+    @BindString(R.string.unauthorized) String unauthorized;
+    @BindString(R.string.error_conection) String errorConection;
+    @BindString(R.string.server_error) String serverError;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,6 +53,10 @@ public class LoginFragment extends Fragment {
     @OnClick(R.id.login)
     public void sendToserver() {
         login.setEnabled(false);
+        useName.setEnabled(false);
+        password.setEnabled(false);
+        loading.setVisibility(View.VISIBLE);
+
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint(FinalString.domainURL_v2)
@@ -70,6 +80,9 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void failure(RetrofitError error) {
                         login.setEnabled(true);
+                        useName.setEnabled(true);
+                        password.setEnabled(true);
+                        loading.setVisibility(View.INVISIBLE);
 
                         if (error.getKind() == RetrofitError.Kind.HTTP) {
                             switch (error.getResponse().getStatus()) {
@@ -78,20 +91,17 @@ public class LoginFragment extends Fragment {
                                     break;
 
                                 case 401:
-                                    Toast.makeText(context, "خطا ۴۰۱", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, unauthorized, Toast.LENGTH_SHORT).show();
                                     break;
 
                                 default:
-                                    Toast.makeText(context, "خطا", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
                                     break;
                             }
 
                         } else {
-                            Toast.makeText(context, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, errorConection, Toast.LENGTH_SHORT).show();
                         }
-
-                        //todo
-
                     }
                 }
         );

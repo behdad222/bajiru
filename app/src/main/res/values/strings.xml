@@ -7,5 +7,8 @@
     <string name="user_name">نام کاربری</string>
     <string name="password">رمز عبور</string>
     <string name="users">کاربران</string>
+    <string name="unauthorized">نام کاربری یا پسورد اشتباست</string>
+    <string name="error_conection">خطا در برقراری ارتباط</string>
+    <string name="server_error">خطا سرور</string>
 
 </resources>
