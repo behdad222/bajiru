@@ -8,7 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.malinskiy.materialicons.widget.IconTextView;
+
 import app.reyhoon.ir.Interface.ClickListener;
+import app.reyhoon.ir.Interface.FinalString;
 import app.reyhoon.ir.R;
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
@@ -27,7 +30,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView itemTitle;
-//        TextView itemIcon;
+        IconTextView itemIcon;
         View backGrand;
 
         public ViewHolder(View itemView, int ViewType) {
@@ -38,7 +41,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
             if (ViewType == TYPE_ITEM) {
                 itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
-//                itemIcon = (ImageView) itemView.findViewById(R.id.ItemIcon);
+                itemIcon = (IconTextView) itemView.findViewById(R.id.ItemIcon);
                 backGrand = itemView.findViewById(R.id.back_grand);
             }
         }
@@ -73,7 +76,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     public void onBindViewHolder(DrawerAdapter.ViewHolder holder, int position) {
         if (!isPositionHeader(position)) {
             holder.itemTitle.setText(drawerTitles[position - 1]);
-//            holder.itemIcon.setText(FinalString.drawerIcon[position - 1]);
+            holder.itemIcon.setText(FinalString.drawerIcon[position - 1]);
             if (selectedItem == position) {
                 holder.backGrand.setVisibility(View.VISIBLE);
             } else {
