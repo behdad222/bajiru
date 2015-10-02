@@ -11,4 +11,14 @@
     <string name="close">Close</string>
     <string name="open">Open</string>
 
+
+    <string-array name="drawer_title">
+        <item>فروش</item>
+        <item>گزارش</item>
+        <item>مشترکین</item>
+        <item>غذاها</item>
+        <item>پیک‌ها</item>
+        <item>کاربران</item>
+        <item>تنظیمات</item>
+    </string-array>
 </resources>

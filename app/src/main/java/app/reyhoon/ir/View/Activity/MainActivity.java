@@ -4,28 +4,30 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
+import app.reyhoon.ir.Adapter.DrawerAdapter;
+import app.reyhoon.ir.Interface.ClickListener;
 import app.reyhoon.ir.Interface.FinalString;
 import app.reyhoon.ir.R;
 import app.reyhoon.ir.View.Fragment.LoginFragment;
 import app.reyhoon.ir.View.Fragment.MainFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    Context context;
+public class MainActivity extends AppCompatActivity implements ClickListener {
+    private Context context;
     private Toolbar toolbar;
-    private NavigationView navigationView;
+    private RecyclerView navigation;
     private DrawerLayout drawerLayout;
-
+    private DrawerAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        navigation = (RecyclerView) findViewById(R.id.navigation_view);
+        navigation.setHasFixedSize(true);
+        adapter = new DrawerAdapter(this, this);
+        navigation.setAdapter(adapter);
 
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        layoutManager = new LinearLayoutManager(this);
+        navigation.setLayoutManager(layoutManager);
+
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open, R.string.close){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.open, R.string.close){
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -76,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
-        return false;
+    public void onClickItem(View v, int position) {
+
     }
 }
