@@ -22,6 +22,16 @@ import app.reyhoon.ir.View.Fragment.LoginFragment;
 import app.reyhoon.ir.View.Fragment.MainFragment;
 
 public class MainActivity extends AppCompatActivity implements ClickListener {
+    public static final int ORDER = 0;
+    public static final int REPORT = 1;
+    public static final int CUSTOMER = 2;
+    public static final int ITEM = 3;
+    public static final int AGENT = 4;
+    public static final int USER = 5;
+    public static final int SETTING = 6;
+
+    public int menuPosition = -1;
+
     private Context context;
     private Toolbar toolbar;
     private RecyclerView navigation;
@@ -84,6 +94,90 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
 
     @Override
     public void onClickItem(View v, int position) {
+        selectItem(position);
+    }
 
+    public void selectItem(int position) {
+        switch (position) {
+
+            case ORDER:
+                if (menuPosition != ORDER) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_holder, new MainFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    menuPosition = ORDER;
+                }
+                break;
+
+            case REPORT:
+                if (menuPosition != REPORT) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_holder, new MainFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    menuPosition = REPORT;
+                }
+                break;
+
+            case CUSTOMER:
+                if (menuPosition != CUSTOMER) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_holder, new MainFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    menuPosition = CUSTOMER;
+                }
+                break;
+
+            case ITEM:
+                if (menuPosition != ITEM) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_holder, new MainFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    menuPosition = ITEM;
+                }
+                break;
+
+            case AGENT:
+                if (menuPosition != AGENT) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_holder, new MainFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    menuPosition = AGENT;
+                }
+                break;
+
+            case USER:
+                if (menuPosition != USER) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_holder, new MainFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    menuPosition = USER;
+                }
+                break;
+
+            case SETTING:
+                if (menuPosition != SETTING) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_holder, new MainFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    menuPosition = SETTING;
+                }
+                break;
+
+        }
+        drawerLayout.closeDrawers();
     }
 }
