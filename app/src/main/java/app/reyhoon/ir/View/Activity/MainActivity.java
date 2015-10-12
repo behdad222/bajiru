@@ -18,17 +18,18 @@ import app.reyhoon.ir.Adapter.DrawerAdapter;
 import app.reyhoon.ir.Interface.ClickListener;
 import app.reyhoon.ir.Interface.FinalString;
 import app.reyhoon.ir.R;
+import app.reyhoon.ir.View.Fragment.CustomerFragment;
 import app.reyhoon.ir.View.Fragment.LoginFragment;
 import app.reyhoon.ir.View.Fragment.MainFragment;
 
 public class MainActivity extends AppCompatActivity implements ClickListener {
-    public static final int ORDER = 0;
-    public static final int REPORT = 1;
-    public static final int CUSTOMER = 2;
-    public static final int ITEM = 3;
-    public static final int AGENT = 4;
-    public static final int USER = 5;
-    public static final int SETTING = 6;
+    public static final int ORDER = 1;
+    public static final int REPORT = 2;
+    public static final int CUSTOMER = 3;
+    public static final int ITEM = 4;
+    public static final int AGENT = 5;
+    public static final int USER = 6;
+    public static final int SETTING = 7;
 
     public int menuPosition = -1;
 
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         layoutManager = new LinearLayoutManager(this);
         navigation.setLayoutManager(layoutManager);
 
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.open, R.string.close){
 
@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
 
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
 
         if (Prefs.getBoolean(FinalString.LOGIN_USER, false)) {
             FragmentManager manager = getFragmentManager();
@@ -126,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
                 if (menuPosition != CUSTOMER) {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.fragment_holder, new MainFragment())
+                            .replace(R.id.fragment_holder, new CustomerFragment())
                             .addToBackStack(null)
                             .commit();
                     menuPosition = CUSTOMER;
