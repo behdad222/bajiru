@@ -10,92 +10,91 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
+import app.bajiru.ir.R;
 import app.bajiru.ir.adapter.CustomersAdapter;
-import app.bajiru.ir.appInterface.FinalString;
-import app.bajiru.ir.appInterface.GetCustomersApi;
+import app.bajiru.ir.appInterface.CustomerApi;
 import app.bajiru.ir.object.Model.Customer;
 import app.bajiru.ir.object.Response.CustomersResponse;
-import app.bajiru.ir.R;
+import app.bajiru.ir.service.ServiceGenerator;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CustomerFragment extends Fragment {
 
-    @Bind(R.id.recycleView) RecyclerView recyclerView;
+	@Bind(R.id.recycleView)
+	RecyclerView recyclerView;
 
-    private RecyclerView.LayoutManager layoutManager;
-    private CustomersAdapter adapter;
+	private RecyclerView.LayoutManager layoutManager;
+	private CustomersAdapter adapter;
 
-    private ArrayList<Customer> customers;
+	private ArrayList<Customer> customers;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_users, container, false);
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_users, container, false);
 
-        ButterKnife.bind(this, view);
+		ButterKnife.bind(this, view);
 
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+		recyclerView.setHasFixedSize(true);
+		layoutManager = new LinearLayoutManager(getActivity());
+		recyclerView.setLayoutManager(layoutManager);
 
-        customers = new ArrayList<>();
-        adapter = new CustomersAdapter(customers);
-        recyclerView.setAdapter(adapter);
+		customers = new ArrayList<>();
+		adapter = new CustomersAdapter(customers);
+		recyclerView.setAdapter(adapter);
 
-        getUsersList();
-        return view;
-    }
+		getUsersList();
+		return view;
+	}
 
-    private void getUsersList() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(FinalString.domainURL_v2)
-                .build();
+	private void getUsersList() {
+		CustomerApi customerApi = ServiceGenerator
+				.createServiceWithAccessToken(CustomerApi.class);
 
-        GetCustomersApi getCustomersApi = restAdapter.create(GetCustomersApi.class);
-        getCustomersApi.getCustomers(
-                Prefs.getString(FinalString.TOKEN, ""),
-                50, //todo
-                1, //todo
-                new Callback<CustomersResponse>() {
-                    @Override
-                    public void success(CustomersResponse customersResponse, Response response) {
-                        Collections.addAll(customers, customersResponse.getCustomer());
-                        adapter.notifyDataSetChanged();
+		Call<CustomersResponse> call = customerApi.getCustomer(50, 1);
 
-                    }
+		call.enqueue(new Callback<CustomersResponse>() {
+			@Override
+			public void onResponse(Call<CustomersResponse> call, Response<CustomersResponse> response) {
+				if (isAdded()) {
+					if (response.isSuccessful()) {
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        if (error.getKind() == RetrofitError.Kind.HTTP) {
-                            if (error.getResponse().getStatus() == 403) {
-                                Toast.makeText(getActivity(), "عدم وجود سطح دسترسی", Toast.LENGTH_SHORT).show();
+						Collections.addAll(customers, response.body().getCustomer());
+						adapter.notifyDataSetChanged();
 
-                            } else {
-                                Toast.makeText(getActivity(), "خطا" + error.getResponse().getStatus(), Toast.LENGTH_SHORT).show();
+					} else {
 
-                            }
+						if (response.code() == 403) {
+							Toast.makeText(getActivity(), "عدم وجود سطح دسترسی", Toast.LENGTH_SHORT).show();
 
-                        } else {
-                            Toast.makeText(getActivity(), "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
+						} else {
+							Toast.makeText(getActivity(), "خطا" + response.code(), Toast.LENGTH_SHORT).show();
 
-                        }
-                        //todo
-                    }
-                });
-    }
+						}
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
+						//todo
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(Call<CustomersResponse> call, Throwable t) {
+				if (isAdded()) {
+					Toast.makeText(getActivity(), "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.unbind(this);
+	}
 }

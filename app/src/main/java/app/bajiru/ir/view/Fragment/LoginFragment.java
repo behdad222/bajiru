@@ -14,102 +14,118 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
-import app.bajiru.ir.appInterface.FinalString;
-import app.bajiru.ir.appInterface.LoginApi;
+import app.bajiru.ir.MainAplication;
+import app.bajiru.ir.R;
+import app.bajiru.ir.appInterface.UserApi;
 import app.bajiru.ir.object.Gson.LoginGson;
 import app.bajiru.ir.object.Response.LoginResponse;
-import app.bajiru.ir.R;
-import butterknife.Bind;
+import app.bajiru.ir.service.ServiceGenerator;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
-    Context context;
+	Context context;
 
-    @Bind(R.id.login) Button login;
-    @Bind(R.id.userName) EditText useName;
-    @Bind(R.id.password) EditText password;
-    @Bind(R.id.loading) ProgressBar loading;
-    @BindString(R.string.unauthorized) String unauthorized;
-    @BindString(R.string.error_conection) String errorConection;
-    @BindString(R.string.server_error) String serverError;
+	@Bind(R.id.login)
+	Button login;
+	@Bind(R.id.userName)
+	EditText useName;
+	@Bind(R.id.password)
+	EditText password;
+	@Bind(R.id.loading)
+	ProgressBar loading;
+	@BindString(R.string.unauthorized)
+	String unauthorized;
+	@BindString(R.string.error_conection)
+	String errorConection;
+	@BindString(R.string.server_error)
+	String serverError;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        context = getActivity();
-        ButterKnife.bind(this, view);
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_login, container, false);
+		context = getActivity();
+		ButterKnife.bind(this, view);
 
-        return view;
-    }
+		return view;
+	}
 
-    @OnClick(R.id.login)
-    public void sendToserver() {
-        login.setEnabled(false);
-        useName.setEnabled(false);
-        password.setEnabled(false);
-        loading.setVisibility(View.VISIBLE);
+	@OnClick(R.id.login)
+	public void sendToserver() {
+		login.setEnabled(false);
+		useName.setEnabled(false);
+		password.setEnabled(false);
+		loading.setVisibility(View.VISIBLE);
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint(FinalString.domainURL_v2)
-                .build();
+		UserApi userApi = ServiceGenerator
+				.createServiceBasicAuthentication(UserApi.class);
 
-        LoginApi loginApi = restAdapter.create(LoginApi.class);
-        loginApi.login(
-                new LoginGson(useName.getText().toString(), password.getText().toString()),
-                new Callback<LoginResponse>() {
-                    @Override
-                    public void success(LoginResponse loginResponse, Response response) {
-                        Prefs.putString(FinalString.TOKEN, loginResponse.getToken());
-                        Prefs.putBoolean(FinalString.LOGIN_USER, true);
+		Call<LoginResponse> call = userApi.login(
+				new LoginGson(
+						useName.getText().toString(),
+						password.getText().toString())
+		);
 
-                        FragmentManager manager = getFragmentManager();
-                        FragmentTransaction transaction = manager.beginTransaction();
-                        transaction.replace(R.id.fragment_holder, new MainFragment() );
-                        transaction.commit();
-                    }
+		call.enqueue(new Callback<LoginResponse>() {
+			@Override
+			public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+				if (isAdded()) {
+					if (response.isSuccessful()) {
+						loading.setVisibility(View.INVISIBLE);
+//						Prefs.putString(FinalString.TOKEN, loginResponse.getToken());
+//						Prefs.putBoolean(FinalString.LOGIN_USER, true);
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        login.setEnabled(true);
-                        useName.setEnabled(true);
-                        password.setEnabled(true);
-                        loading.setVisibility(View.INVISIBLE);
+						MainAplication.token = response.body().getToken();
 
-                        if (error.getKind() == RetrofitError.Kind.HTTP) {
-                            switch (error.getResponse().getStatus()) {
-                                case 418:
-                                    Toast.makeText(context, "باید پسورد عوض شود", Toast.LENGTH_SHORT).show();
-                                    break;
+						FragmentManager manager = getFragmentManager();
+						FragmentTransaction transaction = manager.beginTransaction();
+						transaction.replace(R.id.fragment_holder, new MainFragment());
+						transaction.commit();
 
-                                case 401:
-                                    Toast.makeText(context, unauthorized, Toast.LENGTH_SHORT).show();
-                                    break;
+					} else {
+						login.setEnabled(true);
+						useName.setEnabled(true);
+						password.setEnabled(true);
+						loading.setVisibility(View.INVISIBLE);
 
-                                default:
-                                    Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
-                                    break;
-                            }
+						switch (response.code()) {
+							case 418:
+								Toast.makeText(context, "باید پسورد عوض شود", Toast.LENGTH_SHORT).show();
+								break;
 
-                        } else {
-                            Toast.makeText(context, errorConection, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
-    }
+							case 401:
+								Toast.makeText(context, unauthorized, Toast.LENGTH_SHORT).show();
+								break;
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
+							default:
+								Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
+								break;
+						}
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(Call<LoginResponse> call, Throwable t) {
+				if (isAdded()) {
+					login.setEnabled(true);
+					useName.setEnabled(true);
+					password.setEnabled(true);
+					loading.setVisibility(View.INVISIBLE);
+					Toast.makeText(context, errorConection, Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.unbind(this);
+	}
 }

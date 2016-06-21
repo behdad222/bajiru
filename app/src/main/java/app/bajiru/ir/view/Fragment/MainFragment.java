@@ -12,19 +12,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
-import app.bajiru.ir.appInterface.FinalString;
-import app.bajiru.ir.appInterface.GetUserApi;
-import app.bajiru.ir.object.Response.UserResponse;
 import app.bajiru.ir.R;
+import app.bajiru.ir.appInterface.UserApi;
+import app.bajiru.ir.object.Response.UserResponse;
+import app.bajiru.ir.service.ServiceGenerator;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainFragment extends Fragment {
     Context context;
@@ -42,33 +39,36 @@ public class MainFragment extends Fragment {
     }
 
     private void getUserInfo() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(FinalString.domainURL_v2)
-                .build();
+		UserApi userApi = ServiceGenerator
+				.createServiceWithAccessToken(UserApi.class);
 
-        GetUserApi getUserApi = restAdapter.create(GetUserApi.class);
-        getUserApi.getUser(
-                Prefs.getString(FinalString.TOKEN, ""),
-                new Callback<UserResponse>() {
-                    @Override
-                    public void success(UserResponse userResponse, Response response) {
-                        Prefs.putString(FinalString.USER_NAME, userResponse.getName());
-                        Toast.makeText(context, userResponse.getName(), Toast.LENGTH_SHORT).show();
+		Call<UserResponse> call = userApi.getUser();
 
-                    }
+		call.enqueue(new Callback<UserResponse>() {
+			@Override
+			public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+				if (isAdded()) {
+					if (response.isSuccessful()) {
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        if (error.getKind() == RetrofitError.Kind.HTTP) {
-                            Toast.makeText(context, "خطا" + error.getResponse().getStatus(), Toast.LENGTH_SHORT).show();
+//						Prefs.putString(FinalString.USER_NAME, userResponse.getName());
+//						Toast.makeText(context, userResponse.getName(), Toast.LENGTH_SHORT).show();
 
-                        } else {
-                            Toast.makeText(context, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
+					} else {
 
-                        }
-                        //todo
-                    }
-                });
+//						Toast.makeText(context, "خطا" + error.getResponse().getStatus(), Toast.LENGTH_SHORT).show();
+
+						//todo
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(Call<UserResponse> call, Throwable t) {
+				if (isAdded()) {
+					Toast.makeText(getActivity(), "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
     }
 
     @OnClick(R.id.users)

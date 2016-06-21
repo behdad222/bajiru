@@ -10,6 +10,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import java.util.Locale;
 
 public class MainAplication extends Application {
+	public static String token;
 
     @Override
     public void onCreate() {

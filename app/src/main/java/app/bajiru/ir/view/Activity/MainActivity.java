@@ -14,9 +14,9 @@ import android.view.View;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
+import app.bajiru.ir.StaticFields;
 import app.bajiru.ir.adapter.DrawerAdapter;
 import app.bajiru.ir.appInterface.ClickListener;
-import app.bajiru.ir.appInterface.FinalString;
 import app.bajiru.ir.R;
 import app.bajiru.ir.view.Fragment.CustomerFragment;
 import app.bajiru.ir.view.Fragment.LoginFragment;
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-        if (Prefs.getBoolean(FinalString.LOGIN_USER, false)) {
+        if (Prefs.getBoolean(StaticFields.LOGIN_USER, false)) {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace( R.id.fragment_holder, new MainFragment() );
