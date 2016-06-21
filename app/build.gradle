@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24"
 
     defaultConfig {
-        applicationId "app.reyhoon.ir"
+        applicationId "app.bajiru.ir"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
